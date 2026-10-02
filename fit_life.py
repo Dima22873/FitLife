@@ -26,7 +26,9 @@ while True:
 # Запрашиваем вес пользователя
 while True:
     try:
-        user_weight = float(input('Укажите ваш вес (в килограммах) - '))
+        user_weight = float(
+            input('Укажите ваш вес (в килограммах) - ').replace(',', '.')
+        )
         break
     except ValueError:
         print('Вес должен быть числом.')
@@ -35,8 +37,11 @@ while True:
 
 while True:
     try:
-        user_height = float(input('Укажите ваш рост в метрах '
-                                  '(например 1.82) - '))
+        user_height = float(
+            input(
+                'Укажите ваш рост в метрах '
+                '(например 1.82) - ').replace(',', '.')
+        )
         break
     except ValueError:
         print('Рост должен быть числом.')
@@ -50,27 +55,27 @@ water_ml = user_weight * MILLILITERS_PER_KG
 # Переводим миллилитры в литры
 water_l = water_ml / MILLILITERS_PER_LITER
 
+
 # Проверка приставки после возраста пользователя
-last_digit = user_age % 10
+def get_age_suffix(age):
+    """Возвращает правильно оконцание для возраста."""
+    last_digit = age % 10
 
-if 11 <= user_age <= 14:
-    age_suffix = 'лет'
-elif last_digit == 1:
-    age_suffix = 'год'
-elif last_digit == 2 or last_digit == 3 or last_digit == 4:
-    age_suffix = 'года'
-else:
-    age_suffix = 'лет'
-
-
-print(f'Ответ для пользователя: {user_name} ({user_age} {age_suffix})')
-print(f'Твой Индекс Массы Тела: {round(bmi, 1)}')
-print(f'Рекомендуемая норма воды: {water_l:.2f} л. в день', end='\n\n')
-print('Рассчет окончен. Будьте здоровы!')
+    if 11 <= age <= 14:
+        return 'лет'
+    elif last_digit == 1:
+        return 'год'
+    elif last_digit == 2 or last_digit == 3 or last_digit == 4:
+        return 'года'
+    else:
+        return 'лет'
 
 
-# ИИ использовал только для того чтобы узнать про try и except
-# (узнал про устройство этой конструкции в целом, а не получил готовый код)
-# и у меня не проходился 1 тест, что-то с котировкой было - узнал у чатагпт
-# и он сказал первые 2 строчки добавить, указав котировку явно.
-# а так больше ИИ нигде нет
+age_suffix = get_age_suffix(user_age)
+
+print(
+    f'Ответ для пользователя: {user_name} ({user_age} {age_suffix})\n'
+    f'Твой Индекс Массы Тела: {round(bmi, 1)}\n'
+    f'Рекомендуемая норма воды: {water_l:.2f} л. в день\n\n'
+    f'Рассчет окончен. Будьте здоровы!'
+)
